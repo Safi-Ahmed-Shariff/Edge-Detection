@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edge Detection</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #222;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            margin-top: 20px;
+            background-color: #333;
+            color: #fff;
+        }
+        .card img {
+            width: 100%;
+            height: auto;
+        }
+        .alert {
+            background-color: #dc3545;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Edge Detection App</h1>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">Upload an Image</h5>
+                <form id="uploadForm" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="file" id="imageInput" name="image" class="form-control-file" required>
+                    </div>
+                    <button type="submit" id="detectEdgesBtn" class="btn btn-primary">Detect Edges</button>
+                </form>
+            </div>
+        </div>
+
+        {% if original_image %}
+        <div class="card mt-4" id="originalImageCard">
+            <div class="card-body">
+                <h5 class="card-title">Original Image</h5>
+                <img src="{{ original_image }}" alt="Original Image">
+            </div>
+        </div>
+
+        <div class="card mt-4" id="edgesImageCard">
+            <div class="card-body">
+                <h5 class="card-title">Edge Detected Image</h5>
+                <img src="{{ edges_image }}" alt="Edge Detected Image">
+            </div>
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="alert alert-danger mt-4" role="alert">
+            {{ error }}
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'edge_detection_app/script.js' %}"></script>
+</body>
+</html>
